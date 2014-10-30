@@ -156,6 +156,11 @@ module RETS
         @headers.merge!("RETS-UA-Authorization" => "Digest #{Digest::MD5.hexdigest("#{login}::#{args[:session_id]}:#{@headers["RETS-Version"]}")}")
       end
     end
+    
+    def proxy
+      http_proxy = ENV["http_proxy"]
+      URI.parse(http_proxy) rescue nil
+    end
 
     ##
     # Sends a request to the RETS server.
@@ -193,7 +198,12 @@ module RETS
 
       headers = headers ? @headers.merge(headers) : @headers
 
-      http = ::Net::HTTP.new(args[:url].host, args[:url].port)
+      if proxy
+        http = ::Net::HTTP::Proxy(proxy.host, proxy.port).new(args[:url].host, args[:url].port)
+      else
+        http = ::Net::HTTP.new(args[:url].host, args[:url].port)
+      end
+
       http.read_timeout = args[:read_timeout] if args[:read_timeout]
       http.set_debug_output(@config[:debug_output]) if @config[:debug_output]
 
