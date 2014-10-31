@@ -199,7 +199,8 @@ module RETS
       headers = headers ? @headers.merge(headers) : @headers
 
       if proxy
-        http = ::Net::HTTP::Proxy(proxy.host, proxy.port).new(args[:url].host, args[:url].port)
+        http = ::Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new(args[:url].host, args[:url].port)
+        puts "Using proxy: #{proxy.inspect}"
       else
         http = ::Net::HTTP.new(args[:url].host, args[:url].port)
       end

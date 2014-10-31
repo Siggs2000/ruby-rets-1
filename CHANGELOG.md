@@ -1,5 +1,12 @@
 # Overview
-
+## 2.0.9
+### Features
+  * monkey patch zlip for proxy pass
+  
+## 2.0.8
+### Features
+  * Added proxy support via ENV["http_proxy"]
+  
 ## 2.0.7
 
 Confirmed to work with Ruby 2.0.0-p0
