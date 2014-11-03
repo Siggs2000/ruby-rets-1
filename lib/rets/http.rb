@@ -158,7 +158,7 @@ module RETS
     end
     
     def proxy
-      http_proxy = ENV["http_proxy"]
+      http_proxy = @config[:http_proxy]
       URI.parse(http_proxy) rescue nil
     end
 
